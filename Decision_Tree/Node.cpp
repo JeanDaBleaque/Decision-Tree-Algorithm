@@ -8,25 +8,27 @@ void Node::setStats() {
     stats["upperYellow"] = 0;
     stats["upperRed"] = 0;
     stats["upperGreen"] = 0;
+    stats["totalPiece"] = 0;
     std::vector<class Piece>::iterator it;
     for (it=dataPieces.begin();it<dataPieces.end();it++) {
         if (split_axis == 0) {
-            if (it.base()->x<split_axis) {
-                addColor(it, stats, 0);
+            if (it.base()->x<split_coord) {
+                addColor(it, 0);
             } else {
-                addColor(it, stats, 1);
+                addColor(it, 1);
             }
         } else if (split_axis == 1) {
-            if (it.base()->y<split_axis) {
-                addColor(it, stats, 0);
+            if (it.base()->y<split_coord) {
+                addColor(it, 0);
             } else {
-                addColor(it, stats, 1);
+                addColor(it, 1);
             }
         }
     }
+    stats["totalPiece"] = stats["lowerYellow"] + stats["lowerRed"] + stats["lowerGreen"] + stats["upperYellow"] + stats["upperRed"] + stats["upperGreen"];
 }
 
-void Node::addColor(std::vector<class Piece>::iterator it, std::map<std::string, int> stats, int pos) {
+void Node::addColor(std::vector<class Piece>::iterator it, int pos) {
     if (pos == 0) {
         if (it.base()->color == "yellow") {
             stats["lowerYellow"]++;
@@ -44,4 +46,10 @@ void Node::addColor(std::vector<class Piece>::iterator it, std::map<std::string,
             stats["upperGreen"]++;
         }
     }
+}
+
+void Node::printInfo() {
+    std::cout << "Split Axis: " << split_axis << std::endl;
+    std::cout << "Split Coordinate: " << split_coord << std::endl;
+    std::cout << "Information Gain Value: " << I << std::endl;
 }

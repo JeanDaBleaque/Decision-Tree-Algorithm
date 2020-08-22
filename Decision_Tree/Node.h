@@ -7,12 +7,14 @@ class Node {
 public:
     std::vector<class Piece> dataPieces;
     std::map<std::string, int> stats;
-    int split_coord;
+    float split_coord;
     int split_axis;
-    Node *lowerNode;
-    Node *upperNode;
+    float I;
+    Node *leftNode;
+    Node *rightNode;
     void setStats();
-    void addColor(std::vector<class Piece>::iterator it, std::map<std::string, int> stats, int pos);
+    void addColor(std::vector<class Piece>::iterator it, int pos);
+    void printInfo();
 };
 
 #endif // NODE_H

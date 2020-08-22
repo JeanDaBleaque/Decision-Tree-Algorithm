@@ -4,6 +4,7 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
+        Calculations.cpp \
         DataManager.cpp \
         Node.cpp \
         main.cpp
@@ -11,6 +12,7 @@ SOURCES += \
         DataManager.h
 
 HEADERS += \
+    Calculations.h \
     DataManager.h \
     DataPiece.h \
     Node.h

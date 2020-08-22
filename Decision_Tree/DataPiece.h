@@ -3,7 +3,7 @@
 #include <string>
 class Piece {
 public:
-    int x, y;
+    float x, y;
     std::string color;
 };
 
