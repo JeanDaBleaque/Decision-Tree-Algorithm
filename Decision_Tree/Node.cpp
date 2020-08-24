@@ -28,6 +28,25 @@ void Node::setStats() {
     stats["totalPiece"] = stats["lowerYellow"] + stats["lowerRed"] + stats["lowerGreen"] + stats["upperYellow"] + stats["upperRed"] + stats["upperGreen"];
 }
 
+void Node::setChildNodes() {
+    std::vector<class Piece>::iterator it;
+    for (it=dataPieces.begin();it<dataPieces.end();it++) {
+        if (split_axis == 0) {
+            if (it.base()->x<split_coord) {
+                leftNode->dataPieces.push_back(*it);
+            } else {
+                rightNode->dataPieces.push_back(*it);
+            }
+        } else if (split_axis == 1) {
+            if (it.base()->y<split_coord) {
+                leftNode->dataPieces.push_back(*it);
+            } else {
+                rightNode->dataPieces.push_back(*it);
+            }
+        }
+    }
+}
+
 void Node::addColor(std::vector<class Piece>::iterator it, int pos) {
     if (pos == 0) {
         if (it.base()->color == "yellow") {

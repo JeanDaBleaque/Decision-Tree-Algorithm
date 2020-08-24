@@ -2,10 +2,13 @@
 #include <iostream>
 #include <time.h>
 #include <math.h>
-void CalculationObject::setRnd() {
+void CalculationObject::setRnd(Node *curNode) {
+    //std::cout << ".";
     srand(time(nullptr));
     axis = rand() % 2;
-    coordinate = (((float)rand())/RAND_MAX * (float)7);
+    coordinate = (((float)rand())/RAND_MAX * (float)5);
+    curNode->split_axis = axis;
+    curNode->split_coord = coordinate;
 }
 
 void CalculationObject::checkPossibilities(Node *curNode) {
@@ -14,9 +17,25 @@ void CalculationObject::checkPossibilities(Node *curNode) {
     float bestI = 0;
     for (int i=0;i<10000;i++) {
         float currentI = 0;
-        setRnd();
-        curNode->split_axis = axis;
-        curNode->split_coord = coordinate;
+        setRnd(curNode);
+        if (curNode->mainNode != nullptr && axis == curNode->mainNode->split_axis) {
+            while (1) {
+                FET++;
+                setRnd(curNode);
+                if (curNode == curNode->mainNode->leftNode) {
+                    if (curNode->split_coord <= curNode->mainNode->split_coord) {
+                        break;
+                    }
+                } else if (curNode == curNode->mainNode->rightNode) {
+                    if (curNode->split_coord > curNode->mainNode->split_coord) {
+                        break;
+                    }
+                }
+            }
+            if (FET>1000000) {
+                break;
+            }
+        }
         curNode->setStats();
         currentI = calculateInfGain(curNode);
         if (currentI>bestI) {
@@ -77,4 +96,5 @@ void CalculationObject::getCurrentStat(Node *curNode) {
     std::cout << curNode->stats["upperRed"] << std::endl;
     std::cout << "Upper Green: ";
     std::cout << curNode->stats["upperGreen"] << std::endl;
+    std::cout << "----------------------------------------------------" << std::endl;
 }

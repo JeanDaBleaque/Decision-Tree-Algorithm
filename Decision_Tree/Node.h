@@ -10,9 +10,15 @@ public:
     float split_coord;
     int split_axis;
     float I;
+    int depth;
+    Node *mainNode;
     Node *leftNode;
     Node *rightNode;
+    Node (Node *mainNode) {
+        this->mainNode = mainNode;
+    }
     void setStats();
+    void setChildNodes();
     void addColor(std::vector<class Piece>::iterator it, int pos);
     void printInfo();
 };

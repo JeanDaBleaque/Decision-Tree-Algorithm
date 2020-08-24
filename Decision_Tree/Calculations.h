@@ -5,7 +5,8 @@ class CalculationObject {
 public:
     int axis;
     float coordinate;
-    void setRnd();
+    int FET = 0;
+    void setRnd(Node *curNode);
     void checkPossibilities(Node *curNode);
     float calculateInfGain(Node *curNode);
     void getCurrentStat(Node *curNode);
