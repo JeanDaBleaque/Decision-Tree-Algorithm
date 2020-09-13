@@ -6,6 +6,12 @@
 #include "json.hpp"
 class Node {
 public:
+    enum conditions{
+        MAX_COORD = 6,
+        MIN_DATA = 200,
+        MAX_DEPTH = 3,
+        MAX_CALC = 10000
+    };
     std::vector<class Piece> dataPieces;
     std::map<std::string, int> stats;
     float split_coord;

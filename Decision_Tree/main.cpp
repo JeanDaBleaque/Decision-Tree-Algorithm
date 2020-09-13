@@ -7,19 +7,19 @@
 nlohmann::json j;
 void process(Node *curNode);
 
-int main()
-{
+int main() {//Starts algorithm
     j = readData();
     if (j == nullptr) {
         return 0;
     }
     std::cout << j["data_count"] << std::endl;
+    createNodeJson();
     Node *startNode = new Node(nullptr);
     process(startNode);
     return 0;
 }
 
-void process(Node *curNode) {
+void process(Node *curNode) {//Calls functions in node class step by step.
     std::cout << "Current Depth: " << curNode->depth << " Node started!" << std::endl;
     CalculationObject *calcObj = new CalculationObject;
     if (curNode->mainNode == nullptr) {
@@ -35,7 +35,7 @@ void process(Node *curNode) {
     calcObj->checkPossibilities(curNode);
     curNode->printInfo();
     calcObj->getCurrentStat(curNode);
-    if (curNode->depth+1 >= 3 || curNode->dataPieces.size()<3) {
+    if (curNode->depth+1 >= curNode->MAX_DEPTH || curNode->dataPieces.size()<curNode->MIN_DATA) {
         curNode->writeInfo();
         delete(curNode);
         return;

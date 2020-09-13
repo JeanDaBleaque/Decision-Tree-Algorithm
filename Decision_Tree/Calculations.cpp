@@ -2,20 +2,19 @@
 #include <iostream>
 #include <time.h>
 #include <math.h>
-void CalculationObject::setRnd(Node *curNode) {
-    //std::cout << ".";
+void CalculationObject::setRnd(Node *curNode) {//Sets node's coordinate and axis randomly.
     srand(time(nullptr));
     axis = rand() % 2;
-    coordinate = (((float)rand())/RAND_MAX * (float)5);
+    coordinate = (((float)rand())/RAND_MAX * (float)curNode->MAX_COORD);
     curNode->split_axis = axis;
     curNode->split_coord = coordinate;
 }
 
-void CalculationObject::checkPossibilities(Node *curNode) {
+void CalculationObject::checkPossibilities(Node *curNode) {//Checks optimal coord values for node.
     int bestAxis = 0;
     float bestCoordinate = 0;
     float bestI = 0;
-    for (int i=0;i<10000;i++) {
+    for (int i=0;i<curNode->MAX_CALC;i++) {
         float currentI = 0;
         setRnd(curNode);
         if (curNode->mainNode != nullptr && axis == curNode->mainNode->split_axis) {
@@ -31,9 +30,9 @@ void CalculationObject::checkPossibilities(Node *curNode) {
                         break;
                     }
                 }
-            }
-            if (FET>1000000) {
-                break;
+                if (FET>curNode->MAX_CALC) {
+                    break;
+                }
             }
         }
         curNode->setStats();
@@ -52,7 +51,7 @@ void CalculationObject::checkPossibilities(Node *curNode) {
     }
 }
 
-float CalculationObject::calculateInfGain(Node *curNode) {
+float CalculationObject::calculateInfGain(Node *curNode) {//Calculates information gain value.
     std::map<std::string, float> currentProbs;
     currentProbs["lowerYellowProb"] = ((float)(curNode->stats["lowerYellow"])/curNode->stats["totalPiece"]);
     currentProbs["lowerRedProb"] = ((float)(curNode->stats["lowerRed"])/curNode->stats["totalPiece"]);
@@ -65,17 +64,13 @@ float CalculationObject::calculateInfGain(Node *curNode) {
     currentProbs["totalYellowProb"] = currentProbs["lowerYellowProb"] + currentProbs["upperYellowProb"];
     currentProbs["totalRedProb"] = currentProbs["lowerRedProb"] + currentProbs["upperRedProb"];
     currentProbs["totalGreenProb"] = currentProbs["lowerGreenProb"] + currentProbs["upperGreenProb"];
-
     std::map<std::string, float>::iterator it;
-
     for (it=currentProbs.begin();it!=currentProbs.end();it++) {
         if (it->second == (float) 0) {
             it->second = (float) 1;
         }
     }
-
     float HS, HSL, HSU, I;
-
     HS = -1*(currentProbs["totalYellowProb"]*log2f(currentProbs["totalYellowProb"]) + currentProbs["totalRedProb"]*log2f(currentProbs["totalRedProb"]) + currentProbs["totalGreenProb"]*log2f(currentProbs["totalGreenProb"]));
     HSL = (currentProbs["lowerYellowProb"]*log2f(currentProbs["lowerYellowProb"]) + currentProbs["lowerRedProb"]*log2f(currentProbs["lowerRedProb"]) + currentProbs["lowerGreenProb"]*log2f(currentProbs["lowerGreenProb"]));
     HSU = (currentProbs["upperYellowProb"]*log2f(currentProbs["upperYellowProb"]) + currentProbs["upperRedProb"]*log2f(currentProbs["upperRedProb"]) + currentProbs["upperGreenProb"]*log2f(currentProbs["upperGreenProb"]));
@@ -83,7 +78,7 @@ float CalculationObject::calculateInfGain(Node *curNode) {
     return I;
 }
 
-void CalculationObject::getCurrentStat(Node *curNode) {
+void CalculationObject::getCurrentStat(Node *curNode) {//Prints node's current status.
     std::cout << "Lower Yellow: ";
     std::cout << curNode->stats["lowerYellow"] << std::endl;
     std::cout << "Lower Red: ";
