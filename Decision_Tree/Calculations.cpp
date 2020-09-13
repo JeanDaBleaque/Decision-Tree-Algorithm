@@ -46,6 +46,7 @@ void CalculationObject::checkPossibilities(Node *curNode) {//Checks optimal coor
     curNode->split_axis = bestAxis;
     curNode->split_coord = bestCoordinate;
     curNode->I = bestI;
+    curNode->setPreCoordinate();
     if (bestI == (float) 0) {
         checkPossibilities(curNode);
     }

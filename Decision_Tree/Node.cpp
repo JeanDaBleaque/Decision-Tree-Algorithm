@@ -67,6 +67,15 @@ void Node::addColor(std::vector<class Piece>::iterator it, int pos) {//Adds colo
     }
 }
 
+void Node::setPreCoordinate() {
+    if (mainNode == nullptr) {
+        preCoordinate = 0;
+    } else if (split_axis == mainNode->split_axis) {
+        preCoordinate = mainNode->preCoordinate;
+    } else if (split_axis != mainNode->split_axis) {
+        preCoordinate = mainNode->split_coord;
+    }
+}
 void Node::printInfo() {//Prints node's axis, coordiante and inf. gain value.
     std::cout << "Split Axis: " << split_axis << std::endl;
     std::cout << "Split Coordinate: " << split_coord << std::endl;
@@ -85,6 +94,7 @@ void Node::writeInfo() {//Writes node status to nodes.json file.
             json["node_count"] = nodeCount+1;
             json["nodes"][nodeCount]["split_axis"] = split_axis;
             json["nodes"][nodeCount]["split_coordinate"] = split_coord;
+            json["nodes"][nodeCount]["pre_coordinate"] = preCoordinate;
             json["nodes"][nodeCount]["information_gain"] = I;
             json["nodes"][nodeCount]["lower_yellow"] = stats["lowerYellow"];
             json["nodes"][nodeCount]["lower_red"] = stats["lowerRed"];

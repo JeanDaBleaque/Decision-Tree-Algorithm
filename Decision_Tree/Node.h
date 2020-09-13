@@ -18,6 +18,7 @@ public:
     int split_axis;
     float I;
     int depth;
+    float preCoordinate;
     Node *mainNode;
     Node *leftNode;
     Node *rightNode;
@@ -29,6 +30,7 @@ public:
     void addColor(std::vector<class Piece>::iterator it, int pos);
     void printInfo();
     void writeInfo();
+    void setPreCoordinate();
 };
 
 #endif // NODE_H
