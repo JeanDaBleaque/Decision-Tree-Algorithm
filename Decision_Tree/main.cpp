@@ -5,7 +5,6 @@
 #include "DataPiece.h"
 #include "Calculations.h"
 nlohmann::json j;
-
 void process(Node *curNode);
 
 int main()
@@ -36,7 +35,9 @@ void process(Node *curNode) {
     calcObj->checkPossibilities(curNode);
     curNode->printInfo();
     calcObj->getCurrentStat(curNode);
-    if (curNode->depth+1 >= 2 || curNode->dataPieces.size()<3) {
+    if (curNode->depth+1 >= 3 || curNode->dataPieces.size()<3) {
+        curNode->writeInfo();
+        delete(curNode);
         return;
     }
     curNode->leftNode = new Node(curNode);
@@ -46,4 +47,5 @@ void process(Node *curNode) {
     curNode->setChildNodes();
     process(curNode->leftNode);
     process(curNode->rightNode);
+    delete(curNode);
 }

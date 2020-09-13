@@ -3,6 +3,7 @@
 #include <vector>
 #include <DataPiece.h>
 #include <map>
+#include "json.hpp"
 class Node {
 public:
     std::vector<class Piece> dataPieces;
@@ -21,6 +22,7 @@ public:
     void setChildNodes();
     void addColor(std::vector<class Piece>::iterator it, int pos);
     void printInfo();
+    void writeInfo();
 };
 
 #endif // NODE_H
